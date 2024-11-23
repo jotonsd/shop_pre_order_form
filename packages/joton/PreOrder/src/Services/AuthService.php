@@ -6,6 +6,7 @@ use Exception;
 use Throwable;
 use Illuminate\Support\Facades\Auth;
 use Joton\PreOrder\Repositories\AuthRepositoryInterface;
+use stdClass;
 
 class AuthService
 {
@@ -27,7 +28,7 @@ class AuthService
      * @param array $credentials
      * @return stdClass
      */
-    public function login(array $credentials)
+    public function login(array $credentials): stdClass
     {
         try {
             // Attempt to authenticate the user
@@ -58,16 +59,16 @@ class AuthService
     /**
      * Handle user logout and token revocation.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return stdClass
      */
-    public function logout()
+    public function logout(): stdClass
     {
         try {
             $user = Auth::user();
 
             $this->authRepository->revokeTokens($user);
 
-            return ['message' => 'Logged out successfully'];
+            return (object) ['message' => 'Logged out successfully'];
         } catch (Throwable $th) {
             throw new Exception($th);
         }

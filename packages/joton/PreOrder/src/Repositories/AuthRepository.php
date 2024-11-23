@@ -15,7 +15,7 @@ class AuthRepository implements AuthRepositoryInterface
      * @param string $email
      * @return User|null
      */
-    public function findUserByEmail(string $email)
+    public function findUserByEmail(string $email): User
     {
         try {
             return User::where('email', $email)->first();
@@ -30,7 +30,7 @@ class AuthRepository implements AuthRepositoryInterface
      * @param User $user
      * @return string
      */
-    public function createToken($user)
+    public function createToken($user): string
     {
         try {
             return $user->createToken('auth_token')->plainTextToken;
@@ -45,7 +45,7 @@ class AuthRepository implements AuthRepositoryInterface
      * @param User $user
      * @return void
      */
-    public function revokeTokens($user)
+    public function revokeTokens($user): void
     {
         try {
             $user->tokens()->delete();

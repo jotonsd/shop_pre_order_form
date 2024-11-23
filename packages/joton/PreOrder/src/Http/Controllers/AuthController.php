@@ -3,6 +3,7 @@
 namespace Joton\PreOrder\Http\Controllers;
 
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Throwable;
 use Joton\PreOrder\Services\AuthService;
 use Joton\PreOrder\Http\Requests\Auth\LoginRequest;
@@ -26,9 +27,9 @@ class AuthController extends Controller
      * Login a user and generate an authentication token.
      *
      * @param LoginRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function login(LoginRequest $request)
+    public function login(LoginRequest $request): JsonResponse
     {
         try {
             $loginInfo = $this->authService->login($request->validated());
@@ -45,9 +46,9 @@ class AuthController extends Controller
      * Logout a user and revoke authentication tokens.
      *
      * @param LogoutRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function logout(LogoutRequest $request)
+    public function logout(LogoutRequest $request): JsonResponse
     {
         try {
             $logoutInfo = $this->authService->logout();
