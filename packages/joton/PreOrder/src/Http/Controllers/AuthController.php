@@ -2,6 +2,8 @@
 
 namespace Joton\PreOrder\Http\Controllers;
 
+use Exception;
+use Throwable;
 use Joton\PreOrder\Services\AuthService;
 use Joton\PreOrder\Http\Requests\Auth\LoginRequest;
 use Joton\PreOrder\Http\Requests\Auth\LogoutRequest;
@@ -28,12 +30,15 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request)
     {
-        // Delegate login logic to the service
-        $loginInfo = $this->authService->login($request->validated());
-        $statusCode = $loginInfo->status_code;
-        unset($loginInfo->status_code);
+        try {
+            $loginInfo = $this->authService->login($request->validated());
+            $statusCode = $loginInfo->status_code;
+            unset($loginInfo->status_code);
 
-        return response()->json($loginInfo, $statusCode);
+            return response()->json($loginInfo, $statusCode);
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -44,9 +49,12 @@ class AuthController extends Controller
      */
     public function logout(LogoutRequest $request)
     {
-        // Delegate logout logic to the service
-        $logoutInfo = $this->authService->logout();
+        try {
+            $logoutInfo = $this->authService->logout();
 
-        return response()->json($logoutInfo, 200);
+            return response()->json($logoutInfo, 200);
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 }

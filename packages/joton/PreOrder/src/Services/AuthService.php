@@ -2,6 +2,8 @@
 
 namespace Joton\PreOrder\Services;
 
+use Exception;
+use Throwable;
 use Illuminate\Support\Facades\Auth;
 use Joton\PreOrder\Repositories\AuthRepositoryInterface;
 
@@ -27,26 +29,30 @@ class AuthService
      */
     public function login(array $credentials)
     {
-        // Attempt to authenticate the user
-        if (!Auth::attempt($credentials)) {
+        try {
+            // Attempt to authenticate the user
+            if (!Auth::attempt($credentials)) {
+                return (object) [
+                    'message' => "Invalid login credentials!",
+                    'status_code' => 401
+                ];
+            }
+
+            // Retrieve the authenticated user
+            $user = Auth::user();
+
+            // Generate and return the token
+            $token = $this->authRepository->createToken($user);
+
             return (object) [
-                'message' => "Invalid login credentials!",
-                'status_code' => 401
+                'status_code' => 200,
+                'access_token' => $token,
+                'token_type' => 'Bearer',
+                'user' => $user
             ];
+        } catch (Throwable $th) {
+            throw new Exception($th);
         }
-
-        // Retrieve the authenticated user
-        $user = Auth::user();
-
-        // Generate and return the token
-        $token = $this->authRepository->createToken($user);
-
-        return (object) [
-            'status_code' => 200,
-            'access_token' => $token,
-            'token_type' => 'Bearer',
-            'user' => $user
-        ];
     }
 
     /**
@@ -56,12 +62,14 @@ class AuthService
      */
     public function logout()
     {
-        // Retrieve the authenticated user
-        $user = Auth::user();
+        try {
+            $user = Auth::user();
 
-        // Revoke all tokens for the user
-        $this->authRepository->revokeTokens($user);
+            $this->authRepository->revokeTokens($user);
 
-        return ['message' => 'Logged out successfully'];
+            return ['message' => 'Logged out successfully'];
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 }

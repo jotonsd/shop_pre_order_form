@@ -2,6 +2,8 @@
 
 namespace Joton\PreOrder\Repositories;
 
+use Exception;
+use Throwable;
 use App\Models\User;
 use Joton\PreOrder\Repositories\AuthRepositoryInterface;
 
@@ -15,7 +17,11 @@ class AuthRepository implements AuthRepositoryInterface
      */
     public function findUserByEmail(string $email)
     {
-        return User::where('email', $email)->first();
+        try {
+            return User::where('email', $email)->first();
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -26,7 +32,11 @@ class AuthRepository implements AuthRepositoryInterface
      */
     public function createToken($user)
     {
-        return $user->createToken('auth_token')->plainTextToken;
+        try {
+            return $user->createToken('auth_token')->plainTextToken;
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -37,6 +47,10 @@ class AuthRepository implements AuthRepositoryInterface
      */
     public function revokeTokens($user)
     {
-        $user->tokens()->delete();
+        try {
+            $user->tokens()->delete();
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 }
