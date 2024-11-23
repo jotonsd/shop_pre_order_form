@@ -2,7 +2,9 @@
 
 namespace Joton\PreOrder\Repositories;
 
+use Exception;
 use Joton\PreOrder\Models\Product;
+use Throwable;
 
 class ProductRepository implements ProductRepositoryInterface
 {
@@ -25,7 +27,11 @@ class ProductRepository implements ProductRepositoryInterface
      */
     public function getAll()
     {
-        return $this->model->with('category')->get();
+        try {
+            return $this->model->with('category')->get();
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -36,7 +42,11 @@ class ProductRepository implements ProductRepositoryInterface
      */
     public function getById($id)
     {
-        return $this->model->with('category')->findOrFail($id);
+        try {
+            return $this->model->with('category')->findOrFail($id);
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -47,7 +57,11 @@ class ProductRepository implements ProductRepositoryInterface
      */
     public function create(array $data)
     {
-        return $this->model->create($data);
+        try {
+            return $this->model->create($data);
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -59,9 +73,14 @@ class ProductRepository implements ProductRepositoryInterface
      */
     public function update($id, array $data)
     {
-        $category = $this->getById($id);
-        $category->update($data);
-        return $category;
+        try {
+            $product = $this->getById($id);
+            $product->update($data);
+
+            return $product;
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -72,21 +91,31 @@ class ProductRepository implements ProductRepositoryInterface
      */
     public function delete($id)
     {
-        $category = $this->getById($id);
-        $category->delete();
-        return $category;
+        try {
+            $product = $this->getById($id);
+            $product->delete();
+
+            return $product;
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
-     * Restore a soft-deleted category.
+     * Restore a soft-deleted product.
      *
      * @param int $id
      * @return \Joton\PreOrder\Models\Product
      */
     public function restore($id)
     {
-        $category = $this->model->onlyTrashed()->findOrFail($id);
-        $category->restore();
-        return $category;
+        try {
+            $product = $this->model->onlyTrashed()->findOrFail($id);
+            $product->restore();
+
+            return $product;
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 }

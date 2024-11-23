@@ -2,9 +2,10 @@
 
 namespace Joton\PreOrder\Http\Controllers;
 
+use Exception;
 use Joton\PreOrder\Services\ProductService;
 use Joton\PreOrder\Http\Requests\ProductRequest;
-use App\Http\Controllers\Controller;
+use Throwable;
 
 class ProductController extends Controller
 {
@@ -27,8 +28,14 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = $this->productService->getAllProducts();
-        return response()->json($products);
+        try {
+            $products = $this->productService->getAllProducts();
+            $this->logResponse(response()->json($products));
+
+            return response()->json($products);
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -39,8 +46,14 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product = $this->productService->getProductById($id);
-        return response()->json($product);
+        try {
+            $product = $this->productService->getProductById($id);
+            $this->logResponse(response()->json($product));
+
+            return response()->json($product);
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -51,8 +64,15 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        $product = $this->productService->createProduct($request->validated());
-        return response()->json($product, 201);
+        try {
+            $this->logRequest($request);
+            $product = $this->productService->createProduct($request->validated());
+            $this->logResponse(response()->json($product));
+
+            return response()->json($product, 201);
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -64,8 +84,15 @@ class ProductController extends Controller
      */
     public function update(ProductRequest $request, $id)
     {
-        $product = $this->productService->updateProduct($id, $request->validated());
-        return response()->json($product);
+        try {
+            $this->logRequest($request, $id);
+            $product = $this->productService->updateProduct($id, $request->validated());
+            $this->logResponse(response()->json($product));
+
+            return response()->json($product);
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -76,8 +103,15 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $this->productService->deleteProduct($id);
-        return response()->json(['message' => 'Product deleted successfully']);
+        try {
+            $this->productService->deleteProduct($id);
+            $data = ['message' => 'Product deleted successfully'];
+            $this->logResponse(response()->json($data));
+
+            return response()->json($data);
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -88,7 +122,13 @@ class ProductController extends Controller
      */
     public function restore($id)
     {
-        $product = $this->productService->restoreProduct($id);
-        return response()->json($product);
+        try {
+            $product = $this->productService->restoreProduct($id);
+            $this->logResponse(response()->json($product));
+
+            return response()->json($product);
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 }
