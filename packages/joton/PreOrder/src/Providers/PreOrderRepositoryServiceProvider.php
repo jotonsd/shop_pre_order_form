@@ -2,6 +2,8 @@
 
 namespace Joton\PreOrder\Providers;
 
+use Illuminate\Cache\RateLimiter;
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Support\ServiceProvider;
 use Joton\PreOrder\Services\UserService;
 use Joton\PreOrder\Services\ProductService;
@@ -77,6 +79,11 @@ class PreOrderRepositoryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // RateLimiter instance via the app() helper
+        $rateLimiter = app(RateLimiter::class);
+
+        // Custom rate limiter
+        $this->registerRateLimiter($rateLimiter);
         // Load routes, views, and other assets if needed
         $this->loadRoutesFrom(__DIR__ . '/../Routes/api.php');
 
@@ -85,5 +92,17 @@ class PreOrderRepositoryServiceProvider extends ServiceProvider
 
         // Register the middleware alias
         $this->app['router']->aliasMiddleware('check.admin', CheckAdmin::class);
+    }
+
+
+    /**
+     * Register the custom rate limiter for your package.
+     */
+    protected function registerRateLimiter(RateLimiter $rateLimiter)
+    {
+        // Define rate limiters for specific routes
+        $rateLimiter->for('rate_limiter', function () {
+            return Limit::perMinute(10);  // Set to 10 requests per minute
+        });
     }
 }
