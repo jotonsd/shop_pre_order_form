@@ -2,9 +2,10 @@
 
 namespace Joton\PreOrder\Http\Controllers;
 
+use Exception;
+use Throwable;
 use Joton\PreOrder\Services\UserService;
 use Joton\PreOrder\Http\Requests\UserRequest;
-use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
@@ -27,8 +28,14 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = $this->userSercvice->getAllUsers();
-        return response()->json($users);
+        try {
+            $users = $this->userSercvice->getAllUsers();
+            $this->logResponse(response()->json($users));
+
+            return response()->json($users);
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -39,8 +46,14 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = $this->userSercvice->getUserById($id);
-        return response()->json($user);
+        try {
+            $user = $this->userSercvice->getUserById($id);
+            $this->logResponse(response()->json($user));
+
+            return response()->json($user);
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -51,8 +64,15 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        $user = $this->userSercvice->createUser($request->validated());
-        return response()->json($user, 201);
+        try {
+            $this->logRequest($request);
+            $user = $this->userSercvice->createUser($request->validated());
+            $this->logResponse(response()->json($user));
+
+            return response()->json($user, 201);
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -64,8 +84,15 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, $id)
     {
-        $user = $this->userSercvice->updateUser($id, $request->validated());
-        return response()->json($user);
+        try {
+            $this->logRequest($request, $id);
+            $user = $this->userSercvice->updateUser($id, $request->validated());
+            $this->logResponse(response()->json($user));
+
+            return response()->json($user);
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -76,8 +103,15 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $this->userSercvice->deleteUser($id);
-        return response()->json(['message' => 'User deleted successfully']);
+        try {
+            $this->userSercvice->deleteUser($id);
+            $data = ['message' => 'User deleted successfully'];
+            $this->logResponse(response()->json($data));
+
+            return response()->json($data);
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -88,7 +122,13 @@ class UserController extends Controller
      */
     public function restore($id)
     {
-        $user = $this->userSercvice->restoreUser($id);
-        return response()->json($user);
+        try {
+            $user = $this->userSercvice->restoreUser($id);
+            $this->logResponse(response()->json($user));
+
+            return response()->json($user);
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 }

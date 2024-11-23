@@ -3,6 +3,8 @@
 namespace Joton\PreOrder\Repositories;
 
 use App\Models\User;
+use Exception;
+use Throwable;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -25,7 +27,11 @@ class UserRepository implements UserRepositoryInterface
      */
     public function getAll()
     {
-        return $this->model->all();
+        try {
+            return $this->model->all();
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -36,7 +42,11 @@ class UserRepository implements UserRepositoryInterface
      */
     public function getById($id)
     {
-        return $this->model->findOrFail($id);
+        try {
+            return $this->model->findOrFail($id);
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -47,7 +57,11 @@ class UserRepository implements UserRepositoryInterface
      */
     public function create(array $data)
     {
-        return $this->model->create($data);
+        try {
+            return $this->model->create($data);
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -59,9 +73,14 @@ class UserRepository implements UserRepositoryInterface
      */
     public function update($id, array $data)
     {
-        $category = $this->getById($id);
-        $category->update($data);
-        return $category;
+        try {
+            $user = $this->getById($id);
+            $user->update($data);
+
+            return $user;
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -72,21 +91,30 @@ class UserRepository implements UserRepositoryInterface
      */
     public function delete($id)
     {
-        $category = $this->getById($id);
-        $category->delete();
-        return $category;
+        try {
+            $user = $this->getById($id);
+            $user->delete();
+
+            return $user;
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
-     * Restore a soft-deleted category.
+     * Restore a soft-deleted user.
      *
      * @param int $id
      * @return \Joton\PreOrder\Models\User
      */
     public function restore($id)
     {
-        $category = $this->model->onlyTrashed()->findOrFail($id);
-        $category->restore();
-        return $category;
+        try {
+            $user = $this->model->onlyTrashed()->findOrFail($id);
+            $user->restore();
+            return $user;
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 }
