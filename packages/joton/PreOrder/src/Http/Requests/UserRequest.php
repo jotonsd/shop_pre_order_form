@@ -31,6 +31,7 @@ class UserRequest extends FormRequest
             'password' => $this->isMethod('post')
                 ? 'required|string|min:6|confirmed'
                 : 'nullable|string|min:6|confirmed',
+            'role' => 'required|in:admin,manager',
         ];
     }
 }
