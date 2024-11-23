@@ -4,7 +4,8 @@ namespace Joton\PreOrder\Http\Controllers;
 
 use Joton\PreOrder\Services\ProductCategoryService;
 use Joton\PreOrder\Http\Requests\ProductCategoryRequest;
-use App\Http\Controllers\Controller;
+use Exception;
+use Throwable;
 
 class ProductCategoryController extends Controller
 {
@@ -27,8 +28,14 @@ class ProductCategoryController extends Controller
      */
     public function index()
     {
-        $categories = $this->productCategoryService->getAllCategories();
-        return response()->json($categories);
+        try {
+            $categories = $this->productCategoryService->getAllCategories();
+            $this->logResponse(response()->json($categories));
+
+            return response()->json($categories);
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -39,8 +46,14 @@ class ProductCategoryController extends Controller
      */
     public function show($id)
     {
-        $category = $this->productCategoryService->getCategoryById($id);
-        return response()->json($category);
+        try {
+            $category = $this->productCategoryService->getCategoryById($id);
+            $this->logResponse(response()->json($category));
+
+            return response()->json($category);
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -51,8 +64,15 @@ class ProductCategoryController extends Controller
      */
     public function store(ProductCategoryRequest $request)
     {
-        $category = $this->productCategoryService->createCategory($request->validated());
-        return response()->json($category, 201);
+        try {
+            $this->logRequest($request);
+            $category = $this->productCategoryService->createCategory($request->validated());
+            $this->logResponse(response()->json($category));
+
+            return response()->json($category, 201);
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -64,8 +84,15 @@ class ProductCategoryController extends Controller
      */
     public function update(ProductCategoryRequest $request, $id)
     {
-        $category = $this->productCategoryService->updateCategory($id, $request->validated());
-        return response()->json($category);
+        try {
+            $this->logRequest($request);
+            $category = $this->productCategoryService->updateCategory($id, $request->validated());
+            $this->logResponse(response()->json($category));
+
+            return response()->json($category);
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -76,8 +103,15 @@ class ProductCategoryController extends Controller
      */
     public function destroy($id)
     {
-        $this->productCategoryService->deleteCategory($id);
-        return response()->json(['message' => 'Category deleted successfully']);
+        try {
+            $this->productCategoryService->deleteCategory($id);
+            $data = ['message' => 'Category deleted successfully'];
+            $this->logResponse(response()->json($data));
+
+            return response()->json($data);
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -88,7 +122,13 @@ class ProductCategoryController extends Controller
      */
     public function restore($id)
     {
-        $category = $this->productCategoryService->restoreCategory($id);
-        return response()->json($category);
+        try {
+            $category = $this->productCategoryService->restoreCategory($id);
+            $this->logResponse(response()->json($category));
+
+            return response()->json($category);
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Joton\PreOrder\Services;
 
+use Exception;
+use Throwable;
 use Joton\PreOrder\Repositories\ProductCategoryRepositoryInterface;
 
 class ProductCategoryService
@@ -25,7 +27,11 @@ class ProductCategoryService
      */
     public function getAllCategories()
     {
-        return $this->repository->getAll();
+        try {
+            return $this->repository->getAll();
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -36,7 +42,11 @@ class ProductCategoryService
      */
     public function getCategoryById($id)
     {
-        return $this->repository->getById($id);
+        try {
+            return $this->repository->getById($id);
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -47,7 +57,11 @@ class ProductCategoryService
      */
     public function createCategory(array $data)
     {
-        return $this->repository->create($data);
+        try {
+            return $this->repository->create($data);
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -59,7 +73,11 @@ class ProductCategoryService
      */
     public function updateCategory($id, array $data)
     {
-        return $this->repository->update($id, $data);
+        try {
+            return $this->repository->update($id, $data);
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -70,7 +88,11 @@ class ProductCategoryService
      */
     public function deleteCategory($id)
     {
-        return $this->repository->delete($id);
+        try {
+            return $this->repository->delete($id);
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -81,6 +103,10 @@ class ProductCategoryService
      */
     public function restoreCategory($id)
     {
-        return $this->repository->restore($id);
+        try {
+            return $this->repository->restore($id);
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 }

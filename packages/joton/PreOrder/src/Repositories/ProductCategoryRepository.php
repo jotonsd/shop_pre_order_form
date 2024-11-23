@@ -2,6 +2,8 @@
 
 namespace Joton\PreOrder\Repositories;
 
+use Exception;
+use Throwable;
 use Joton\PreOrder\Models\ProductCategory;
 
 class ProductCategoryRepository implements ProductCategoryRepositoryInterface
@@ -25,7 +27,11 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
      */
     public function getAll()
     {
-        return $this->model->with('products')->get();
+        try {
+            return $this->model->with('products')->get();
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -36,7 +42,11 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
      */
     public function getById($id)
     {
-        return $this->model->with('products')->findOrFail($id);
+        try {
+            return $this->model->with('products')->findOrFail($id);
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -47,7 +57,11 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
      */
     public function create(array $data)
     {
-        return $this->model->create($data);
+        try {
+            return $this->model->create($data);
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -59,9 +73,14 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
      */
     public function update($id, array $data)
     {
-        $category = $this->getById($id);
-        $category->update($data);
-        return $category;
+        try {
+            $category = $this->getById($id);
+            $category->update($data);
+
+            return $category;
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -72,9 +91,14 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
      */
     public function delete($id)
     {
-        $category = $this->getById($id);
-        $category->delete();
-        return $category;
+        try {
+            $category = $this->getById($id);
+            $category->delete();
+
+            return $category;
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 
     /**
@@ -85,8 +109,13 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
      */
     public function restore($id)
     {
-        $category = $this->model->onlyTrashed()->findOrFail($id);
-        $category->restore();
-        return $category;
+        try {
+            $category = $this->model->onlyTrashed()->findOrFail($id);
+            $category->restore();
+
+            return $category;
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
     }
 }
