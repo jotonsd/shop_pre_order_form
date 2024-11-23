@@ -9,29 +9,30 @@ Route::prefix('api')->group(function () {
     Route::get('/health', function () {
         return response()->json(['status' => 'Running healthy']);
     });
+    Route::group(['middleware' => 'throttle:rate_limiter'], function () {
+        // User login 
+        Route::post('/login', [AuthController::class, 'login'])->name('login');
 
-    // User login 
-    Route::post('/login', [AuthController::class, 'login'])->name('login');
+        Route::group(['middleware' => 'auth:sanctum'], function () {
+            // User logout 
+            Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    Route::group(['middleware' => 'auth:sanctum'], function () {
-        // User logout 
-        Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+            // User routes 
+            Route::apiResource('users', UserController::class);
+            Route::post('users/{id}/restore', [UserController::class, 'restore']);
 
-        // User routes 
-        Route::apiResource('users', UserController::class);
-        Route::post('users/{id}/restore', [UserController::class, 'restore']);
+            // Category routes 
+            Route::apiResource('categories', ProductCategoryController::class);
+            Route::post('categories/{id}/restore', [ProductCategoryController::class, 'restore']);
 
-        // Category routes 
-        Route::apiResource('categories', ProductCategoryController::class);
-        Route::post('categories/{id}/restore', [ProductCategoryController::class, 'restore']);
+            // Product routes 
+            Route::apiResource('products', ProductController::class);
+            Route::post('products/{id}/restore', [ProductController::class, 'restore']);
 
-        // Product routes 
-        Route::apiResource('products', ProductController::class);
-        Route::post('products/{id}/restore', [ProductController::class, 'restore']);
-
-        // Pre-order routes 
-        Route::apiResource('pre-orders', PreOrderController::class);
-        Route::post('pre-orders/{id}/restore', [PreOrderController::class, 'restore']);
+            // Pre-order routes 
+            Route::apiResource('pre-orders', PreOrderController::class);
+            Route::post('pre-orders/{id}/restore', [PreOrderController::class, 'restore']);
+        });
     });
 });
 // });
