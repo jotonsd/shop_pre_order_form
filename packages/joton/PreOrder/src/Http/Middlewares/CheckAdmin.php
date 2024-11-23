@@ -2,6 +2,7 @@
 
 namespace Joton\PreOrder\Http\Middlewares;
 
+use App\Models\User;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,14 +17,9 @@ class CheckAdmin
      */
     public function handle($request, Closure $next)
     {
-        // Check if the user is authenticated
-        if (!Auth::check()) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
-
         // Check if the user is an admin
-        if (Auth::user()->role !== 'admin') {
-            return response()->json(['error' => 'Access denied: Admins only'], 403);
+        if (Auth::user()->role !== User::ROLE_ADMIN) {
+            return response()->json(['error' => 'Access denied!'], 403);
         }
 
         // Proceed to the next middleware or request
