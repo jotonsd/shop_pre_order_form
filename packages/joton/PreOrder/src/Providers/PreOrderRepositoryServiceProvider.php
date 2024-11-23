@@ -10,7 +10,8 @@ use Joton\PreOrder\Http\Middlewares\CheckAdmin;
 use Joton\PreOrder\Services\ProductCategoryService;
 use Joton\PreOrder\Exceptions\CustomExceptionHandler;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Joton\PreOrder\Repositories\{PreOrderRepository, PreOrderRepositoryInterface, ProductCategoryRepositoryInterface, ProductCategoryRepository, ProductRepository, ProductRepositoryInterface, UserRepository, UserRepositoryInterface};
+use Joton\PreOrder\Repositories\{AuthRepository, AuthRepositoryInterface, PreOrderRepository, PreOrderRepositoryInterface, ProductCategoryRepositoryInterface, ProductCategoryRepository, ProductRepository, ProductRepositoryInterface, UserRepository, UserRepositoryInterface};
+use Joton\PreOrder\Services\AuthService;
 
 class PreOrderRepositoryServiceProvider extends ServiceProvider
 {
@@ -25,6 +26,10 @@ class PreOrderRepositoryServiceProvider extends ServiceProvider
         $this->app->singleton(ExceptionHandler::class, CustomExceptionHandler::class);
 
         // Binding the repository interface to the repository implementation
+        $this->app->bind(
+            AuthRepositoryInterface::class,
+            AuthRepository::class
+        );
         $this->app->bind(
             ProductCategoryRepositoryInterface::class,
             ProductCategoryRepository::class
@@ -43,6 +48,10 @@ class PreOrderRepositoryServiceProvider extends ServiceProvider
         );
 
         // Registering the service
+        $this->app->bind(
+            AuthService::class,
+            AuthService::class
+        );
         $this->app->bind(
             ProductCategoryService::class,
             ProductCategoryService::class
