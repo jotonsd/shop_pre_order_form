@@ -1,0 +1,12 @@
+{
+    "name": "joton/pre-order",
+    "description": "A package for managing product categories, products, and pre-orders with soft deletes.",
+    "autoload": {
+        "psr-4": {
+            "Joton\\PreOrder\\": "src/"
+        }
+    },
+    "require": {
+        "laravel/framework": "^10.0"
+    }
+}
