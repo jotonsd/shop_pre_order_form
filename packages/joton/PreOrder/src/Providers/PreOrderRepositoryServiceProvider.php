@@ -79,12 +79,16 @@ class PreOrderRepositoryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Register event service provider
+        $this->app->register(EventServiceProvider::class);
+
         // RateLimiter instance via the app() helper
         $rateLimiter = app(RateLimiter::class);
 
         // Custom rate limiter
         $this->registerRateLimiter($rateLimiter);
         // Load routes, views, and other assets if needed
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'pre-order');
         $this->loadRoutesFrom(__DIR__ . '/../Routes/api.php');
 
         // // Register migrations

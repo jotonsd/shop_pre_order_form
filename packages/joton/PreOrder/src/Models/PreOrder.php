@@ -17,6 +17,6 @@ class PreOrder extends Model
 
     public function details()
     {
-        return $this->hasMany(PreOrderDetail::class);
+        return $this->hasMany(PreOrderDetail::class)->with('product');
     }
 }

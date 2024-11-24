@@ -9,9 +9,12 @@ use Joton\PreOrder\Models\Product;
 use Joton\PreOrder\Models\PreOrder;
 use Joton\PreOrder\Models\PreOrderDetail;
 use Illuminate\Database\Eloquent\Collection;
+use Joton\PreOrder\Events\PreOrderSubmitted;
 
 class PreOrderRepository implements PreOrderRepositoryInterface
 {
+    protected const ADMIN_MAIL = 'jotonsutradharjoy@gmail.com';
+
     protected $model;
 
     /**
@@ -109,6 +112,13 @@ class PreOrderRepository implements PreOrderRepositoryInterface
                 ]);
             }
             DB::commit();
+
+            $mailData = PreOrder::with('details')->find($orderId)->toArray();
+
+            $mailData['admin_email'] = self::ADMIN_MAIL;
+
+            // Dispatch the event
+            PreOrderSubmitted::dispatch($mailData);
 
             return PreOrder::with('details')->find($orderId);
         } catch (Throwable $th) {
