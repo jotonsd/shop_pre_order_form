@@ -15,6 +15,14 @@ interface PreOrderRepositoryInterface
     public function getAll(): Collection;
 
     /**
+     * Get pre-orders by searched query.
+     *
+     * @param string $query
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getBySearchedQuery(string $query): Collection;
+
+    /**
      * Get a product by its ID.
      *
      * @param int $id

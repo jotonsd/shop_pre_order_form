@@ -39,6 +39,32 @@ class PreOrderRepository implements PreOrderRepositoryInterface
     }
 
     /**
+     * Retrieve all pre-orders.
+     *
+     * @param string $query
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getBySearchedQuery(string $query): Collection
+    {
+        try {
+            return $this->model->select('*', DB::raw("LEAST(
+                        POSITION('{$query}' IN LOWER(name)),
+                        POSITION('{$query}' IN LOWER(email))
+                    ) AS position
+                "))
+                ->where(function ($q) use ($query) {
+                    $q->where('name', 'ILIKE', "%{$query}%")
+                        ->orWhere('email', 'ILIKE', "%{$query}%");
+                })
+                ->orderBy('position', 'desc')
+                ->with('details')
+                ->get();
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
+    }
+
+    /**
      * Retrieve a pre-order by its ID.
      *
      * @param int $id
