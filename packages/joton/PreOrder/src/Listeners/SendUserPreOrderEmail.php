@@ -19,6 +19,6 @@ class SendUserPreOrderEmail implements ShouldQueue
         $data = (object) $event->preOrderData;
 
         // Sending an email to the user
-        Mail::to($data->email)->later(now()->addSeconds(10), new UserPreOrderMail($data));
+        Mail::to($data->email)->later(now()->addSeconds(5), new UserPreOrderMail($data));
     }
 }
