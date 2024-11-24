@@ -28,6 +28,7 @@ class PreOrderRequest extends FormRequest
             'email' => 'required|email|max:255',
             'phone' => 'nullable|numeric|min:0',
             'details' => 'required|array',
+            'details.*.pre_order_details_id' => 'sometimes|exists:pre_order_details,id',
             'details.*.product_id' => 'required|exists:products,id',
             'details.*.quantity' => 'required|numeric|min:0'
         ];

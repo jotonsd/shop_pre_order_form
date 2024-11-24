@@ -117,18 +117,22 @@ class PreOrderRepository implements PreOrderRepositoryInterface
             // Update or create order details
             foreach ($data['details'] as $detail) {
 
-                $price = Product::find($detail['product_id'])->value('price');
-                PreOrderDetail::updateOrCreate(
-                    [
-                        'pre_order_id' => $order->id,
-                        'product_id' => $detail['product_id'],
-                    ],
-                    [
-                        'quantity' => $detail['quantity'],
-                        'unit_price' => $price,
-                        'total_price' => $detail['quantity'] * $price,
-                    ]
-                );
+                if (!empty($detail['pre_order_details_id'])) {
+                    PreOrderDetail::findOrFail($detail['pre_order_details_id'])->delete();
+                } else {
+                    $price = Product::find($detail['product_id'])->value('price');
+                    PreOrderDetail::updateOrCreate(
+                        [
+                            'pre_order_id' => $order->id,
+                            'product_id' => $detail['product_id'],
+                        ],
+                        [
+                            'quantity' => $detail['quantity'],
+                            'unit_price' => $price,
+                            'total_price' => $detail['quantity'] * $price,
+                        ]
+                    );
+                }
             }
             DB::commit();
 
