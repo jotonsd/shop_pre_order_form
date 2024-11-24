@@ -35,6 +35,7 @@ Route::prefix('api')->group(function () {
             // Pre-order routes 
             Route::get('/pre-orders', [PreOrderController::class, 'index']);
             Route::get('/pre-orders/{orderId}', [PreOrderController::class, 'show']);
+            Route::get('/pre-orders/search/{query}', [PreOrderController::class, 'search']);
 
             // User logout 
             Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

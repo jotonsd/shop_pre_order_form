@@ -58,6 +58,24 @@ class PreOrderController extends Controller
     }
 
     /**
+     * Get pre-orders by searched query.
+     *
+     * @param string $query
+     * @return JsonResponse
+     */
+    public function search(string $query): JsonResponse
+    {
+        try {
+            $preOrder = $this->preOrderService->getPreOrderBySearchedQuery($query);
+            $this->logResponse(response()->json($preOrder));
+
+            return response()->json($preOrder);
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
+    }
+
+    /**
      * Store a new pre-order.
      *
      * @param PreOrderRequest $request

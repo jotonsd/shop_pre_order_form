@@ -31,6 +31,17 @@ class PreOrderService
     }
 
     /**
+     * Get pre-orders by searched query.
+     *
+     * @param string $query
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getPreOrderBySearchedQuery(string $query): Collection
+    {
+        return $this->repository->getBySearchedQuery($query);
+    }
+
+    /**
      * Get a pre-order by ID.
      *
      * @param int $id
