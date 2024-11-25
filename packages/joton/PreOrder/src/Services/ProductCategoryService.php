@@ -21,11 +21,25 @@ class ProductCategoryService
     }
 
     /**
-     * Get all product categories.
+     * Get all product categories with pagination.
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getAllCategories()
+    {
+        try {
+            return $this->repository->getAllWithPagination();
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
+    }
+
+    /**
+     * Get all product categories.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getAll()
     {
         try {
             return $this->repository->getAll();

@@ -21,6 +21,20 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
     }
 
     /**
+     * Retrieve all product categories with pagination.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getAllWithPagination()
+    {
+        try {
+            return $this->model->with('products')->orderBy('id', 'desc')->paginate(10);
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
+    }
+
+    /**
      * Retrieve all product categories.
      *
      * @return \Illuminate\Database\Eloquent\Collection
@@ -28,7 +42,7 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
     public function getAll()
     {
         try {
-            return $this->model->with('products')->orderBy('id', 'desc')->paginate(10);
+            return $this->model->get();
         } catch (Throwable $th) {
             throw new Exception($th);
         }

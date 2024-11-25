@@ -5,6 +5,13 @@ namespace Joton\PreOrder\Repositories;
 interface ProductCategoryRepositoryInterface
 {
     /**
+     * Get all product categories with pagination.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getAllWithPagination();
+
+    /**
      * Get all product categories.
      *
      * @return \Illuminate\Database\Eloquent\Collection
