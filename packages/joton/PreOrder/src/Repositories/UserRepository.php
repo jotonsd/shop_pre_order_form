@@ -28,7 +28,7 @@ class UserRepository implements UserRepositoryInterface
     public function getAll()
     {
         try {
-            return $this->model->all();
+            return $this->model->orderBy('id', 'desc')->paginate(10);
         } catch (Throwable $th) {
             throw new Exception($th);
         }
