@@ -34,7 +34,10 @@ class AuthService
             // Attempt to authenticate the user
             if (!Auth::attempt($credentials)) {
                 return (object) [
-                    'message' => "Invalid login credentials!",
+                    'success' => false,
+                    'errors' => [
+                        'message' => "Invalid login credentials!"
+                    ],
                     'status_code' => 401
                 ];
             }

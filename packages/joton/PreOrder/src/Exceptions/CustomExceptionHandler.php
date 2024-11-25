@@ -54,14 +54,18 @@ class CustomExceptionHandler extends ExceptionHandler
         if ($exception instanceof HttpException) {
             return response()->json([
                 'success' => false,
-                'message' => $exception->getMessage() ?: 'HTTP Exception',
+                'errors' => [
+                    'message' => $exception->getMessage() ?: 'HTTP Exception',
+                ],
             ], $exception->getStatusCode());
         }
 
         // Default exception response format
         return response()->json([
             'success' => false,
-            'message' => $exception->getMessage() ?: 'Server Error',
+            'errors' => [
+                'message' => $exception->getMessage() ?: 'Server Error',
+            ],
             'trace' => config('app.debug') ? $exception->getTrace() : null,
         ], 500);
     }
