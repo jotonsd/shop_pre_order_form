@@ -28,7 +28,7 @@ class ProductRepository implements ProductRepositoryInterface
     public function getAll()
     {
         try {
-            return $this->model->with('category')->get();
+            return $this->model->with('category')->orderBy('id', 'desc')->paginate(2);
         } catch (Throwable $th) {
             throw new Exception($th);
         }

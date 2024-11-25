@@ -35,7 +35,7 @@ class PreOrderRepository implements PreOrderRepositoryInterface
     public function getAll(): Collection
     {
         try {
-            return $this->model->with('details')->get();
+            return $this->model->with('details')->orderBy('id', 'desc')->paginate(10);
         } catch (Throwable $th) {
             throw new Exception($th);
         }
