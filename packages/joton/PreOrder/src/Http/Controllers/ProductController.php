@@ -22,7 +22,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Get all products.
+     * Get all products with pagination.
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -30,6 +30,23 @@ class ProductController extends Controller
     {
         try {
             $products = $this->productService->getAllProducts();
+            $this->logResponse(response()->json($products));
+
+            return response()->json($products);
+        } catch (Throwable $th) {
+            throw new Exception($th);
+        }
+    }
+
+    /**
+     * Get all products.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getAll()
+    {
+        try {
+            $products = $this->productService->getAll();
             $this->logResponse(response()->json($products));
 
             return response()->json($products);

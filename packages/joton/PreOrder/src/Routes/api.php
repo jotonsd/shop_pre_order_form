@@ -8,7 +8,7 @@ Route::prefix('api')->group(function () {
     Route::get('/health', function () {
         return response()->json(['status' => 'Running healthy']);
     });
-    Route::group(['middleware' => 'throttle:rate_limiter'], function () {
+    Route::group(['middleware' => 'throttle:60'], function () {
         // User login 
         Route::post('/login', [AuthController::class, 'login'])->name('login');
 
@@ -25,6 +25,7 @@ Route::prefix('api')->group(function () {
 
                 // Product routes 
                 Route::apiResource('products', ProductController::class);
+                Route::get('products-all', [ProductController::class, 'getAll']);
                 Route::post('products/{id}/restore', [ProductController::class, 'restore']);
 
                 //pre-order restore
