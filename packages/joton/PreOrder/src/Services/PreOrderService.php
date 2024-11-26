@@ -25,7 +25,7 @@ class PreOrderService
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getAllPreOrders(): Collection
+    public function getAllPreOrders()
     {
         return $this->repository->getAll();
     }
@@ -36,7 +36,7 @@ class PreOrderService
      * @param string $query
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getPreOrderBySearchedQuery(string $query): Collection
+    public function getPreOrderBySearchedQuery(string $query)
     {
         return $this->repository->getBySearchedQuery($query);
     }

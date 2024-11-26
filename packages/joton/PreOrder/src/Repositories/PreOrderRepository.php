@@ -32,7 +32,7 @@ class PreOrderRepository implements PreOrderRepositoryInterface
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getAll(): Collection
+    public function getAll()
     {
         try {
             return $this->model->with('details')->orderBy('id', 'desc')->paginate(10);
@@ -47,7 +47,7 @@ class PreOrderRepository implements PreOrderRepositoryInterface
      * @param string $query
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getBySearchedQuery(string $query): Collection
+    public function getBySearchedQuery(string $query)
     {
         try {
             return $this->model->select('*', DB::raw("LEAST(

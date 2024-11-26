@@ -12,7 +12,7 @@ interface PreOrderRepositoryInterface
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getAll(): Collection;
+    public function getAll();
 
     /**
      * Get pre-orders by searched query.
@@ -20,7 +20,7 @@ interface PreOrderRepositoryInterface
      * @param string $query
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getBySearchedQuery(string $query): Collection;
+    public function getBySearchedQuery(string $query);
 
     /**
      * Get a product by its ID.

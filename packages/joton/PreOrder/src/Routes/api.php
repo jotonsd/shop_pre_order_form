@@ -20,6 +20,7 @@ Route::prefix('api')->group(function () {
 
                 // Category routes 
                 Route::apiResource('categories', ProductCategoryController::class);
+                Route::get('categories-all', [ProductCategoryController::class, 'getAll']);
                 Route::post('categories/{id}/restore', [ProductCategoryController::class, 'restore']);
 
                 // Product routes 
