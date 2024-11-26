@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\DB;
 use Joton\PreOrder\Models\Product;
 use Joton\PreOrder\Models\PreOrder;
 use Joton\PreOrder\Models\PreOrderDetail;
-use Illuminate\Database\Eloquent\Collection;
 use Joton\PreOrder\Events\PreOrderSubmitted;
 
 class PreOrderRepository implements PreOrderRepositoryInterface
@@ -150,25 +149,23 @@ class PreOrderRepository implements PreOrderRepositoryInterface
                 'phone' => $data['phone'] ?? null,
             ]);
 
+
+            PreOrderDetail::where('pre_order_id', $order->id)->delete();
+
             // Update or create order details
             foreach ($data['details'] as $detail) {
-
-                if (!empty($detail['pre_order_details_id'])) {
-                    PreOrderDetail::findOrFail($detail['pre_order_details_id'])->delete();
-                } else {
-                    $price = Product::find($detail['product_id'])->value('price');
-                    PreOrderDetail::updateOrCreate(
-                        [
-                            'pre_order_id' => $order->id,
-                            'product_id' => $detail['product_id'],
-                        ],
-                        [
-                            'quantity' => $detail['quantity'],
-                            'unit_price' => $price,
-                            'total_price' => $detail['quantity'] * $price,
-                        ]
-                    );
-                }
+                $price = Product::find($detail['product_id'])->value('price');
+                PreOrderDetail::updateOrCreate(
+                    [
+                        'pre_order_id' => $order->id,
+                        'product_id' => $detail['product_id'],
+                    ],
+                    [
+                        'quantity' => $detail['quantity'],
+                        'unit_price' => $price,
+                        'total_price' => $detail['quantity'] * $price,
+                    ]
+                );
             }
             DB::commit();
 
