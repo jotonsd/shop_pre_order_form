@@ -17,15 +17,16 @@ Composer: 2.8.3 <br>
 ➖ Pagination used <br>
 
 ### :zap: Technical features
-➖ Laravel custom package created
-➖ Used repository pattern for the development
-➖ Role-based user access managed
-➖ Used queue, event, listener.
-➖ Mail sent to user and admin
-➖ Soft-delete functionalities
-➖ Pagination
-➖ Custom validations
-➖ Ordering by maximum matching ratio
+➖ Laravel custom package created <br>
+➖ Used repository pattern for the development <br>
+➖ Role-based user access managed <br>
+➖ Used queue, event, listener <br>
+➖ Mail sent to user and admin <br>
+➖ Soft-delete functionalities <br>
+➖ Pagination <br>
+➖ Used Logger trait <br>
+➖ Custom validations <br>
+➖ Ordering by maximum matching ratio <br>
 
 ### :seedling: Step by step
 Clone this Repository
