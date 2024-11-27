@@ -28,7 +28,7 @@ interface PreOrderRepositoryInterface
      * @param int $id
      * @return \Joton\PreOrder\Models\PreOrder
      */
-    public function getById($id): PreOrder;
+    public function getById($id);
 
     /**
      * Create a new product.
@@ -36,7 +36,7 @@ interface PreOrderRepositoryInterface
      * @param array $data
      * @return \Joton\PreOrder\Models\PreOrder
      */
-    public function create(array $data): PreOrder;
+    public function create(array $data);
 
     /**
      * Update an existing product by its ID.
@@ -45,7 +45,7 @@ interface PreOrderRepositoryInterface
      * @param array $data
      * @return \Joton\PreOrder\Models\PreOrder
      */
-    public function update($id, array $data): PreOrder;
+    public function update($id, array $data);
 
     /**
      * Soft delete a product by its ID.
@@ -53,7 +53,7 @@ interface PreOrderRepositoryInterface
      * @param int $id
      * @return \Joton\PreOrder\Models\PreOrder
      */
-    public function delete($id): PreOrder;
+    public function delete($id);
 
     /**
      * Restore a soft-deleted product.
@@ -61,5 +61,5 @@ interface PreOrderRepositoryInterface
      * @param int $id
      * @return \Joton\PreOrder\Models\PreOrder
      */
-    public function restore($id): PreOrder;
+    public function restore($id);
 }

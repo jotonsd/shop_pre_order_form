@@ -72,7 +72,7 @@ class PreOrderRepository implements PreOrderRepositoryInterface
      * @param int $id
      * @return \Joton\PreOrder\Models\PreOrder
      */
-    public function getById($id): PreOrder
+    public function getById($id)
     {
         try {
             return $this->model->with('details')->findOrFail($id);
@@ -87,7 +87,7 @@ class PreOrderRepository implements PreOrderRepositoryInterface
      * @param array $data
      * @return \Joton\PreOrder\Models\PreOrder
      */
-    public function create(array $data): PreOrder
+    public function create(array $data)
     {
         // Start the transaction
         DB::beginTransaction();
@@ -134,7 +134,7 @@ class PreOrderRepository implements PreOrderRepositoryInterface
      * @param array $data
      * @return \Joton\PreOrder\Models\PreOrder
      */
-    public function update($id, array $data): PreOrder
+    public function update($id, array $data)
     {
         $order = $this->getById($id);
 
@@ -183,7 +183,7 @@ class PreOrderRepository implements PreOrderRepositoryInterface
      * @param int $id
      * @return \Joton\PreOrder\Models\PreOrder
      */
-    public function delete($id): PreOrder
+    public function delete($id)
     {
         try {
             $order = $this->getById($id);
@@ -202,7 +202,7 @@ class PreOrderRepository implements PreOrderRepositoryInterface
      * @param int $id
      * @return \Joton\PreOrder\Models\PreOrder
      */
-    public function restore($id): PreOrder
+    public function restore($id)
     {
         try {
             $order = $this->model->onlyTrashed()->with('details')->findOrFail($id);
