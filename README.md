@@ -1,66 +1,86 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🛒 Shop Pre-order From API
+## 🚴 Installation of Shop Pre-order From in the local environment
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+:hamster: In the pre-order form API, you will get users, categories, products, and orders API. APIs are maintained by role base users like Admin & manager. And this is a custom whole package. <br>
 
-## About Laravel
+### 👉 Requirments
+PHP: 8.3.13 <br>
+Laravel: 11.31 <br>
+Composer: 2.8.3 <br>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### :honeybee: Features
+➖ In this application you can manage users, categories, products, and orders<br>
+➖ Admin can create, update, and delete operations<br>
+➖ The manager can only view the order items.<br>
+➖ Guest user, admin, and manager both can create pre-orders <br>
+➖ Order can be searched by name, email <br>
+➖ Pagination used <br>
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### :zap: Technical features
+➖ Laravel custom package created
+➖ Used repository pattern for the development
+➖ Role-based user access managed
+➖ Used queue, event, listener.
+➖ Mail sent to user and admin
+➖ Soft-delete functionalities
+➖ Pagination
+➖ Custom validations
+➖ Ordering by maximum matching ratio
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### :seedling: Step by step
+Clone this Repository
+```sh
+git clone https://github.com/jotonsd/shop_pre_order_form.git
+```
 
-## Learning Laravel
+Install project dependencies
+```sh
+cd shop_pre_order_form
+composer install
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Setup the database environment variables in **.env**
+```dosini
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=database_name
+DB_USERNAME=user_name
+DB_PASSWORD=password
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Then run seed the user table for admin
+```sh
+php artisan db:seed
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Setup the mail configuration in **.env**
+```dosini
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=yourmail@example.com
+MAIL_PASSWORD=mail_password
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=yourmail@example.com
+MAIL_FROM_NAME="${APP_NAME}"
+```
+You can change the admin email from the class **PreOrderRepository**
+```dosini
+protected const ADMIN_MAIL = 'paste_here_your_admin_email@example.com';
+```
+🏃 Before run server run the queue work by the below command
+```sh
+php artisan queue:work
+```
 
-## Laravel Sponsors
+To start the server run
+```sh
+php artisan serve
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Access the local project
+[http://localhost:8000](http://localhost:8000)
+<br>
 
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+**😃Happy Coding, Thank you**
