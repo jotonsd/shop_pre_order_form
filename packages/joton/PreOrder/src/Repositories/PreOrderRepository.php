@@ -60,7 +60,7 @@ class PreOrderRepository implements PreOrderRepositoryInterface
                 })
                 ->orderBy('position', 'desc')
                 ->with('details')
-                ->get();
+                ->paginate(10);
         } catch (Throwable $th) {
             throw new Exception($th);
         }

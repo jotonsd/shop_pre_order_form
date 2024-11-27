@@ -8,7 +8,7 @@ Route::prefix('api')->group(function () {
     Route::get('/health', function () {
         return response()->json(['status' => 'Running healthy']);
     });
-    Route::group(['middleware' => 'throttle:60'], function () {
+    Route::group(['middleware' => 'throttle:rate_limiter'], function () {
         // User login 
         Route::post('/login', [AuthController::class, 'login'])->name('login');
 
