@@ -50,6 +50,11 @@ DB_USERNAME=user_name
 DB_PASSWORD=password
 ```
 
+Run below command to migrate database
+```sh
+php artisan migrate
+```
+
 Then run seed the user table for admin
 ```sh
 php artisan db:seed
